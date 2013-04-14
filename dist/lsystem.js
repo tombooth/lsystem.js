@@ -259,7 +259,7 @@
 
          if (letter === "[") {
             childNode = this._buildTree(instructions.substr(i+1));
-            currentNode.instructions += "#(" + (currentNode.children.push(childNode) - 1) + ")";
+            currentNode.instructions += "#" + (currentNode.children.push(childNode) - 1);
 
             i += childNode.endIndex + 1;
          } else if (letter === "]") {
@@ -276,7 +276,7 @@
 
    }
 
-   Organic.prototype._renderNode = function(node, context) {
+   Organic.prototype._renderTree = function(node, context) {
 
       var letter, ruleForLetter, out = "",
           endOfParams, paramString, params, instructions, state;
@@ -288,7 +288,7 @@
 
          letter = instructions.charAt(i);
 
-         if (ruleForLetter = L.turtle.fns[letter]) {
+         if (ruleForLetter = this.fns[letter]) {
 
             if (ruleForLetter.length === 1) {    // function for letter takes no params other than context
                ruleForLetter.call(state, context);
@@ -307,23 +307,13 @@
             }
          } else if ( letter === "#" ) {
 
-            node.children[+instructions.charAt(++i)].state = { 
-               lineWidth: state.lineWidth,
-               x: state.x,
-               y: state.y,
-               z: state.z,
-               h: [ state.h[0], state.h[1], state.h[2] ],
-               l: [ state.l[0], state.l[1], state.l[2] ],
-               u: [ state.u[0], state.u[1], state.u[2] ],
-               t: state.t,  // vector but never changes
-               e: state.e
-            };
+            node.children[+instructions.charAt(++i)].state = state.duplicate();
 
          } 
       }
 
       for (i = 0; i < node.children.length; i++) {
-         setTimeout(renderNode.bind(this, node.children[i], context), 50);
+         setTimeout(this._renderTree.bind(this, node.children[i], context), 50);
       }
    }
 
