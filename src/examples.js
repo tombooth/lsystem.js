@@ -25,7 +25,8 @@
          state: new L.Turtle.State()
             .withLineWidth(1.732)
             .withTropismVector(0, -1, 0)
-            .withTropismConstant(0.25)
+            .withTropismConstant(0.25),
+         iterations: 7
       },
 
       quadratic_snowflake: {
@@ -36,7 +37,8 @@
             }
          }),
          state: new L.Turtle.State()
-            .withDefaultDistance(5)
+            .withDefaultDistance(5),
+         iterations: 4
       }
 
    };
