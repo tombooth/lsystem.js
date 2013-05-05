@@ -526,6 +526,7 @@
    L.examples = {
 
       tree: {
+         name: "Tree",
          system: new L.System({
             axiom: "!(1)F(130)/(45)A",
             constants: {
@@ -552,6 +553,7 @@
       },
 
       quadratic_snowflake: {
+         name: "Quadratic Snowflake",
          system: new L.System({
             axiom: "-F",
             rules: {
