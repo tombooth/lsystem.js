@@ -131,7 +131,7 @@
       context.lineTo(this.position[0], this.position[1]);
       context.stroke();
 
-      if (this.tropism) { 
+      if (this.tropismEnabled) { 
          var angle = this.tropismConstant * L.math.absCrossProduct(this.heading, this.tropism),
              orientationMatrix = L.math.matrixMult([this.heading, this.left, this.up], L.math.rotationMatrixLeft(angle));
 
@@ -402,6 +402,11 @@
       return this;
    };
 
+   State.prototype.withTropismEnabled = function(enabled) {
+      this.tropismEnabled = enabled;
+      return this;
+   };
+
    State.prototype.withTropismVector = function(i, j, k) {
       this.tropism = [ i, j, k ];
       return this;
@@ -434,7 +439,8 @@
       this.left = (state && state.left) || [ -1, 0, 0 ];
       this.up = (state && state.up) || [ 0, 0, -1 ];
 
-      this.tropism = (state && state.tropism);
+      this.tropismEnabled = (state && state.tropismEnabled !== undefined) ? !!state.tropismEnabled : false;
+      this.tropism = (state && state.tropism) || [ 0, 0, 0 ];
       this.tropismConstant = (state && state.tropismConstant) || 1;
    };
 
@@ -447,6 +453,7 @@
          heading: [ this.heading[0], this.heading[1], this.heading[2] ],
          left: [ this.left[0], this.left[1], this.left[2] ],
          up: [ this.up[0], this.up[1], this.up[2] ],
+         tropismEnabled: this.tropismEnabled,
          tropism: this.tropism && [ this.tropism[0], this.tropism[1], this.tropism[2] ],
          tropismConstant: this.tropismConstant
       };
@@ -547,6 +554,7 @@
          }),
          state: new L.Turtle.State()
             .withLineWidth(1.732)
+            .withTropismEnabled(true)
             .withTropismVector(0, -1, 0)
             .withTropismConstant(0.25),
          iterations: 7

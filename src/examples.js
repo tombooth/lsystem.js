@@ -25,6 +25,7 @@
          }),
          state: new L.Turtle.State()
             .withLineWidth(1.732)
+            .withTropismEnabled(true)
             .withTropismVector(0, -1, 0)
             .withTropismConstant(0.25),
          iterations: 7

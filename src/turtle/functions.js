@@ -21,7 +21,7 @@
       context.lineTo(this.position[0], this.position[1]);
       context.stroke();
 
-      if (this.tropism) { 
+      if (this.tropismEnabled) { 
          var angle = this.tropismConstant * L.math.absCrossProduct(this.heading, this.tropism),
              orientationMatrix = L.math.matrixMult([this.heading, this.left, this.up], L.math.rotationMatrixLeft(angle));
 
